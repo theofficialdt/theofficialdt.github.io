@@ -5,177 +5,242 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Yanix Launcher — a Free and Open Source YS Launcher</title>
-    <meta name="description" content="Download Yanix Launcher, the open-source solution for installing and playing Yandere Simulator on Linux and macOS using WINE. Get installation guides, check requirements, and join the community." />
-    <meta name="keywords" content="Yanix Launcher, Yandere Simulator Linux, Yandere Simulator Mac, Yandere Simulator WINE, Play Yandere Simulator on Linux, Play Yandere Simulator on Mac, open-source game launcher, Python, D.T, RollingYanix" />
+    <title>Yanix Launcher</title>
+    <meta name="description" content="Yanix Launcher. The open-source standard for playing Yandere Simulator on Linux." />
+    <meta name="keywords" content="Yanix Launcher, Yandere Simulator Linux, Open Source" />
     <meta name="author" content="D.T" />
-    <link rel="canonical" href="https://theofficialdt.github.io/" />
     <link rel="icon" type="image/png" href="yanix.png" />
 
-    <meta property="og:title" content="Yanix Launcher | Yandere Simulator for Linux & Mac" />
-    <meta property="og:description" content="The easiest way to install and play Yandere Simulator on Linux and macOS. An optimized, open-source launcher built with Python and WINE." />
-    <meta property="og:image" content="https://nikoyandere.github.io/Yanix-Launcher.png" />
-    <meta property="og:url" content="https://theofficialdt.github.io/" />
+    <meta property="og:title" content="Yanix Launcher" />
+    <meta property="og:description" content="Experience Yandere Simulator on Linux. Designed for performance." />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Yanix Launcher" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Yanix Launcher | Yandere Simulator for Linux & Mac" />
-    <meta name="twitter:description" content="Download the open-source Yanix Launcher to play Yandere Simulator seamlessly on Linux and macOS systems." />
-    <meta name="twitter:image" content="https://nikoyandere.github.io/Yanix-Launcher.png" />
-    <meta name="robots" content="index, follow" />
-    <meta name="google-site-verification" content="GOJRghE7Ot2Xpakam1NyNCcwPoCqoQXdMBUrD5Kfc04" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-      body { font-family: 'Inter', sans-serif; }
-      @keyframes gradient-animation {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      
+      :root {
+          --apple-blue: #2997ff;
+          --apple-blue-hover: #0071e3;
+          --apple-gray: #f5f5f7;
+          --apple-dark: #1d1d1f;
+          --apple-dark-hover: #2d2d2f;
       }
-      .animated-gradient {
-        background: linear-gradient(-45deg, #dd2476, #ff512f, #a100ff, #00d9ff);
-        background-size: 400% 400%;
-        animation: gradient-animation 15s ease infinite;
+
+      body { 
+          font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; 
+          background-color: #000000;
+          color: #f5f5f7;
+          -webkit-font-smoothing: antialiased;
       }
+      
+      .hero-text {
+          background: linear-gradient(180deg, #ffffff 0%, #bca1a1 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+      }
+
+      .nav-blur {
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: saturate(180%) blur(20px);
+          -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+
+      .bento-card {
+          background-color: var(--apple-dark);
+          transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.3s ease;
+      }
+      
+      .bento-card:hover {
+          transform: scale(1.02);
+          background-color: var(--apple-dark-hover);
+      }
+
+      .btn-cta {
+          background-color: #0071e3;
+          transition: all 0.2s ease;
+      }
+      .btn-cta:hover {
+          background-color: #0077ed;
+      }
+
+      .fade-in-up {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
+          transform: translateY(20px);
+      }
+
+      @keyframes fadeInUp {
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+
+      .delay-100 { animation-delay: 100ms; }
+      .delay-200 { animation-delay: 200ms; }
+      .delay-300 { animation-delay: 300ms; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-300 antialiased">
+<body class="selection:bg-blue-500 selection:text-white">
+
+    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/10 transition-all duration-300">
+        <div class="max-w-[980px] mx-auto px-6 h-11 flex items-center justify-between text-[12px] font-medium tracking-wide">
+            <a href="#" class="text-white hover:opacity-80 transition-opacity">Yanix Launcher</a>
+            <div class="flex gap-8 text-[#e8e8ed] opacity-80">
+                <a href="#overview" class="hover:text-white hover:opacity-100 transition-all">Overview</a>
+                <a href="#specs" class="hover:text-white hover:opacity-100 transition-all">Tech Specs</a>
+                <a href="#community" class="hover:text-white hover:opacity-100 transition-all">Community</a>
+            </div>
+        </div>
+    </nav>
 
     <main>
-        <section id="home" class="relative min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden">
-            <div class="absolute inset-0 bg-gray-900 bg-opacity-60 z-10"></div>
-            <div class="absolute inset-0 animated-gradient z-0"></div>
-            
-            <div class="relative z-20 container mx-auto max-w-7xl grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
-                <div class="text-center md:text-left">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight text-white">
-                        A Free and Open Source YS Launcher
-                    </h1>
-                    <p class="text-lg lg:text-xl mb-6 text-gray-200">
-                        Yanix Launcher provides a streamlined way to install, update, and play Yandere Simulator on Linux & macOS using WINE.
-                    </p>
-                    <div class="bg-black bg-opacity-20 backdrop-blur-sm p-4 rounded-lg text-sm border border-white/10">
-                        <p class="mb-2">
-                            <strong class="text-white">Windows Users (Build 1.0.5):</strong> If you use Windows, the recent build is about <strong>50% compatible</strong>, but not 100%. Please note that <strong>Pad Mode isn't compatible</strong> yet.
-                        </p>
-                        <p>
-                            A fully native version is still in development. Track its progress on the <a href="https://github.com/theofficialdt/rollingyanix" target="_blank" rel="noopener noreferrer" class="font-semibold text-pink-400 hover:underline">RollingYanix GitHub</a>.
-                        </p>
-                    </div>
-                </div>
+        <section id="overview" class="pt-32 pb-16 md:pt-48 md:pb-32 px-6 flex flex-col items-center text-center overflow-hidden relative">
+            <div class="max-w-4xl mx-auto z-10">
+                <h2 class="text-[#f56300] font-semibold text-lg md:text-xl mb-4 fade-in-up">We Present:</h2>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-white mb-6 fade-in-up delay-100">
+                    Yanix Launcher.
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 font-medium max-w-2xl mx-auto mb-10 leading-relaxed fade-in-up delay-200">
+                    Yandere Simulator on Linux. Simply. Seamless.
+                </p>
                 
-                <div class="flex flex-col gap-6">
-                    <div class="bg-black bg-opacity-30 backdrop-blur-sm p-5 rounded-lg border border-white/10 shadow-2xl">
-                        <h3 class="font-bold text-lg mb-2 text-white">Manual Installation (Git)</h3>
-                        <div id="clone-command" class="font-mono bg-gray-900/80 p-3 rounded text-sm text-gray-200 break-all border border-gray-700">git clone https://github.com/theofficialdt/yanix-launcher.git</div>
-                        <button type="button" onclick="copyGitCommand()" aria-label="Copy Git clone command" class="mt-4 w-full bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition-all duration-300 transform hover:scale-105">
-                            Copy Command
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="downloads" class="py-20 bg-gray-900">
-            <div class="container mx-auto max-w-4xl px-4 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Downloads & Community</h2>
-                <p class="mb-10 text-lg text-gray-400">Join our community or download the launcher.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
-                    <a href="https://filebin.net/xa1pxcmaof0tupk1/installer-elf.bin" class="bg-gray-800 text-white py-4 px-6 rounded-lg hover:bg-teal-600 transition-colors duration-300 flex flex-col items-center justify-center text-center" target="_blank" rel="noopener noreferrer">
-                        <span class="font-semibold">Installer</span>
-                        <span class="text-xs font-normal text-gray-400 mt-1 italic">*Linux Only, and proprietary for now!</span>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-5 fade-in-up delay-300">
+                    <a href="latest.py" class="btn-cta text-white text-[17px] font-medium py-2.5 px-6 rounded-full min-w-[120px]">
+                        Download Latest
                     </a>
-                    <a href="https://github.com/theofficialdt/yanix-launcher" class="bg-gray-800 text-white font-semibold py-4 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300 flex items-center justify-center" target="_blank" rel="noopener noreferrer">Stable Version</a>
-                    <a href="https://github.com/theofficialdt/rollingyanix" class="bg-gray-800 text-white font-semibold py-4 px-6 rounded-lg hover:bg-orange-500 transition-colors duration-300 flex items-center justify-center" target="_blank" rel="noopener noreferrer">Rolling Version</a>
-                    <a href="https://discord.gg/7JC4FGn69U" class="bg-gray-800 text-white font-semibold py-4 px-6 rounded-lg hover:bg-indigo-600 transition-colors duration-300 flex items-center justify-center" target="_blank" rel="noopener noreferrer">Join our Discord</a>
-                    <a href="https://yanix-launcher.blogspot.com" class="col-span-1 sm:col-span-2 bg-gray-700 text-white font-semibold py-4 px-6 rounded-lg hover:bg-gray-600 transition-colors duration-300 flex items-center justify-center" target="_blank" rel="noopener noreferrer">Read Dev Blog</a>
+                    <a href="https://github.com/theofficialdt/yanix-launcher" target="_blank" class="text-[#2997ff] hover:underline text-[17px] font-medium flex items-center gap-1">
+                        View Source <span class="text-xs">↗</span>
+                    </a>
                 </div>
-            </div>
-        </section>
 
-        <section id="requirements" class="py-20 bg-black">
-            <div class="container mx-auto max-w-4xl px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-orange-400">System Requirements</h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-                        <strong class="block text-lg font-semibold text-white">Kernel:</strong><span class="text-gray-400 ml-2">5.10 or newer</span>
-                    </div>
-                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-                        <strong class="block text-lg font-semibold text-white">Processor:</strong><span class="text-gray-400 ml-2">Intel Core I5 of 8th Gen or Ryzen 7 4000 </span>
-                    </div>
-                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-                        <strong class="block text-lg font-semibold text-white">RAM:</strong><span class="text-gray-400 ml-2">12 GB</span>
-                    </div>
-                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-                        <strong class="block text-lg font-semibold text-white">Graphics:</strong><span class="text-gray-400 ml-2">DirectX 11 compatible</span>
-                    </div>
-                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-                        <strong class="block text-lg font-semibold text-white">VRAM/GTT:</strong><span class="text-gray-400 ml-2">4+ GB recommended</span>
-                    </div>
-                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-                        <strong class="block text-lg font-semibold text-white">Storage:</strong><span class="text-gray-400 ml-2">~5 GB of free space</span>
+                <div class="mt-20 max-w-2xl mx-auto text-left fade-in-up delay-300">
+                    <div class="bg-[#1d1d1f] border border-white/5 rounded-2xl p-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
+                        <div class="bg-gray-700/30 p-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-semibold text-sm">macOS Compatibility</h3>
+                            <p class="text-[13px] text-gray-400 mt-1 leading-normal">
+                                No official support. You must manually modify the <code class="font-mono text-white/80">YANIX_PATH</code> variable in the source code to run on macOS.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="faq" class="py-20 bg-gray-900">
-            <div class="container mx-auto max-w-4xl px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Frequently Asked Questions</h2>
-                <div class="space-y-6">
-                    <details class="bg-gray-800 p-6 rounded-lg group" open>
-                        <summary class="text-xl font-semibold text-pink-400 cursor-pointer list-none flex justify-between items-center">
-                            Is this launcher official?
-                            <span class="transform transition-transform duration-300 group-open:rotate-180">▼</span>
-                        </summary>
-                        <p class="text-gray-400 mt-4">No, Yanix Launcher is an independent, community-driven project and is not affiliated with or endorsed by YandereDev.</p>
-                    </details>
-                    <details class="bg-gray-800 p-6 rounded-lg group">
-                        <summary class="text-xl font-semibold text-pink-400 cursor-pointer list-none flex justify-between items-center">
-                            Is this a native port of the game?
-                            <span class="transform transition-transform duration-300 group-open:rotate-180">▼</span>
-                        </summary>
-                        <p class="text-gray-400 mt-4">Not exactly. It uses WINE to run the Windows version of Yandere Simulator on Linux and macOS without modifying the game's code.</p>
-                    </details>
-                    <details class="bg-gray-800 p-6 rounded-lg group">
-                        <summary class="text-xl font-semibold text-pink-400 cursor-pointer list-none flex justify-between items-center">
-                            Is the launcher's code original? did you Lost Your Github?
-                            <span class="transform transition-transform duration-300 group-open:rotate-180">▼</span>
-                        </summary>
-                        <p class="text-gray-400 mt-4">Yes. The launcher is a custom GUI built with Qt6. The full source code is available on our <a href="https://github.com/theofficialdt/yanix-launcher" class="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer">GitHub repository</a>,and Yes,I Lost my Github Account,this is the new Landing Page.</p>
-                    </details>
-                     <details class="bg-gray-800 p-6 rounded-lg group">
-                        <summary class="text-xl font-semibold text-pink-400 cursor-pointer list-none flex justify-between items-center">
-                           Where is the source code for this website?
-                            <span class="transform transition-transform duration-300 group-open:rotate-180">▼</span>
-                        </summary>
-                        <p class="text-gray-400 mt-4">The source code for this landing page can be found <a href="https://github.com/theofficialdt/theofficialdt.github.io" class="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer">on GitHub</a>.</p>
-                    </details>
+        <section class="bg-black py-12 px-4 md:px-6">
+            <div class="max-w-[1080px] mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="bento-card rounded-[30px] p-8 md:p-12 h-[500px] flex flex-col justify-between overflow-hidden relative group">
+                        <div class="z-10">
+                            <h3 class="text-gray-400 font-semibold text-xl mb-2">Rolling Release</h3>
+                            <p class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-tight">Bleeding edge.<br>For developers.</p>
+                        </div>
+                        <div class="relative z-10 mt-8">
+                            <a href="https://github.com/theofficialdt/rollingyanix" class="inline-flex items-center justify-center rounded-full bg-white text-black px-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors">
+                                View RollingYanix
+                            </a>
+                        </div>
+                        <div class="absolute right-0 bottom-0 w-64 h-64 bg-gradient-to-tl from-orange-500/20 to-transparent blur-3xl rounded-full translate-x-12 translate-y-12"></div>
+                    </div>
+
+                    <div class="bento-card rounded-[30px] p-8 md:p-12 h-[500px] flex flex-col justify-between relative overflow-hidden">
+                        <div class="z-10">
+                            <h3 class="text-gray-400 font-semibold text-xl mb-2">Manual Install</h3>
+                            <p class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-tight">Terminal ready.<br>Git required.</p>
+                        </div>
+                        
+                        <div class="mt-auto space-y-4 z-10">
+                            <div class="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-4 font-mono text-xs text-gray-300 break-all select-all" id="clone-command">git clone https://github.com/theofficialdt/yanix-launcher.git</div>
+                            <button onclick="copyGitCommand()" class="text-[#2997ff] hover:text-[#0071e3] font-medium text-sm flex items-center gap-2 transition-colors">
+                                Copy Command <span id="copy-icon">Example</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <footer id="credits" class="py-16 bg-black">
-            <div class="container mx-auto max-w-4xl px-4 text-center">
-                <h2 class="text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-orange-400">Credits</h2>
-                <ul class="space-y-3 text-gray-400">
-                    <li><strong class="text-pink-400">Akashi Raii:</strong> For emotional support.</li>
-                    <li><strong class="text-pink-400">Ayovizzion:</strong> Volunteer who added the AUR Package.</li>
-                    <li><strong class="text-pink-400">D.T:</strong> Creator of the Yanix Launcher & Community.</li>
-                    <li><strong class="text-pink-400">Minecraft Launchers:</strong> Inspiration for helping gamers.</li>
-                </ul>
-                <p class="mt-12 text-gray-600 text-sm">&copy; 2025 Yanix Launcher Community. Licensed under NLv3.</p>
+        <section id="specs" class="py-24 bg-black px-6">
+            <div class="max-w-[980px] mx-auto">
+                <h2 class="text-4xl md:text-5xl font-semibold text-white mb-16 tracking-tight">System Requirements.</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-y-12 gap-x-8">
+                    <div class="border-t border-white/20 pt-6">
+                        <h4 class="text-lg font-semibold text-white mb-2">Core</h4>
+                        <ul class="space-y-2 text-[#86868b] text-[15px] font-medium">
+                            <li>Linux Kernel 5.10+</li>
+                            <li>Intel Core i5 (8th Gen)</li>
+                            <li>Ryzen 7 4000 Series</li>
+                        </ul>
+                    </div>
+                    <div class="border-t border-white/20 pt-6">
+                        <h4 class="text-lg font-semibold text-white mb-2">Memory & Graphics</h4>
+                        <ul class="space-y-2 text-[#86868b] text-[15px] font-medium">
+                            <li>12 GB RAM</li>
+                            <li>4GB+ VRAM</li>
+                            <li>DirectX 11 Compatible</li>
+                        </ul>
+                    </div>
+                    <div class="border-t border-white/20 pt-6">
+                        <h4 class="text-lg font-semibold text-white mb-2">Storage</h4>
+                        <ul class="space-y-2 text-[#86868b] text-[15px] font-medium">
+                            <li>~5 GB Free Space</li>
+                            <li>SSD Recommended</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-16 pt-8 border-t border-white/10 text-center">
+                    <p class="text-[#86868b] text-xs max-w-2xl mx-auto leading-relaxed">
+                        Windows Build 1.0.5 compatibility is approximately 50%. Pad Mode functionality is currently unsupported. Performance may vary based on hardware configuration and WINE version.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="py-24 bg-[#111111]">
+            <div class="max-w-[980px] mx-auto px-6 text-center">
+                <h2 class="text-3xl font-semibold text-white mb-10">Join the Community.</h2>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="https://discord.gg/7JC4FGn69U" class="group bg-[#1d1d1f] hover:bg-[#2d2d2f] px-8 py-4 rounded-full transition-all duration-300">
+                        <span class="text-white font-medium group-hover:text-[#2997ff] transition-colors">Discord</span>
+                    </a>
+                    <a href="https://yanix-launcher.blogspot.com" class="group bg-[#1d1d1f] hover:bg-[#2d2d2f] px-8 py-4 rounded-full transition-all duration-300">
+                        <span class="text-white font-medium group-hover:text-[#2997ff] transition-colors">Developer Blog</span>
+                    </a>
+                    <a href="https://github.com/theofficialdt/yanix-launcher" class="group bg-[#1d1d1f] hover:bg-[#2d2d2f] px-8 py-4 rounded-full transition-all duration-300">
+                        <span class="text-white font-medium group-hover:text-[#2997ff] transition-colors">GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-[#f5f5f7] dark:bg-black py-10 px-6 border-t border-white/10">
+            <div class="max-w-[980px] mx-auto text-[11px] text-[#86868b] space-y-2">
+                <p>1. Yanix Launcher is an independent open-source project and is not affiliated with YandereDev.</p>
+                <div class="border-t border-gray-800 my-4"></div>
+                <div class="flex flex-col md:flex-row justify-between pt-2">
+                    <p>Copyright &copy; 2025 Yanix Launcher Community. Licensed under NLv3.</p>
+                    <div class="flex gap-4 mt-2 md:mt-0">
+                        <a href="https://github.com/theofficialdt/theofficialdt.github.io" class="hover:underline">Site Source</a>
+                        <span class="text-gray-700">|</span>
+                        <span>Designed by D.T</span>
+                    </div>
+                </div>
             </div>
         </footer>
     </main>
 
-    <div id="easter-egg-overlay" class="hidden fixed inset-0 bg-black bg-opacity-95 text-red-500 font-serif flex-col justify-center items-center text-center z-50 p-4">
-        <h1 class="text-5xl md:text-7xl font-extrabold uppercase tracking-wider text-shadow-lg">Domain Seized</h1>
-        <p class="text-xl md:text-2xl mt-4 max-w-2xl">This domain has been seized by order of the Yanix community.<br />Now scram, weirdo :3</p>
-        <footer class="absolute bottom-10 text-gray-600 text-sm">&copy; 2025 Yanix Launcher Community</footer>
+    <div id="easter-egg-overlay" class="hidden fixed inset-0 bg-black z-[100] flex-col justify-center items-center text-center p-6">
+        <div class="max-w-3xl">
+            <h1 class="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-900 mb-6 tracking-tighter">DOMAIN SEIZED</h1>
+            <p class="text-xl md:text-3xl text-white font-light tracking-wide">By order of the Yanix Community.</p>
+            <p class="mt-8 text-gray-500 text-sm font-mono">CASE ID: 3290-YANIX-DT</p>
+        </div>
     </div>
 
     <script>
@@ -185,18 +250,19 @@
             
             if (!navigator.clipboard) {
                 btn.textContent = "Copying not supported";
-                setTimeout(() => { btn.innerHTML = "Copy Command"; }, 2000);
                 return;
             }
 
             navigator.clipboard.writeText(commandText).then(() => {
-                const originalText = btn.innerHTML;
-                btn.textContent = "Copied!";
-                setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = `Copied <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+                btn.style.color = "#34c759";
+                setTimeout(() => { 
+                    btn.innerHTML = originalHTML; 
+                    btn.style.color = "";
+                }, 2000);
             }).catch(err => {
-                console.error('Failed to copy text: ', err);
-                btn.textContent = "Failed to copy";
-                setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+                btn.textContent = "Failed";
             });
         }
 
