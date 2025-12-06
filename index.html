@@ -21,9 +21,9 @@
       
       :root {
           --apple-blue: #2997ff;
-          --apple-blue-hover: #0071e3;
-          --apple-dark: #1d1d1f;
-          --apple-dark-hover: #2d2d2f;
+          --glass-border: rgba(255, 255, 255, 0.1);
+          --glass-surface: rgba(20, 20, 20, 0.4);
+          --glass-highlight: rgba(255, 255, 255, 0.05);
       }
 
       body { 
@@ -31,30 +31,118 @@
           background-color: #000000;
           color: #f5f5f7;
           -webkit-font-smoothing: antialiased;
-      }
-      
-      .nav-blur {
-          background: rgba(0, 0, 0, 0.8);
-          backdrop-filter: saturate(180%) blur(20px);
-          -webkit-backdrop-filter: saturate(180%) blur(20px);
+          overflow-x: hidden;
+          position: relative;
       }
 
-      .bento-card {
-          background-color: var(--apple-dark);
-          transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), background-color 0.3s ease;
+      /* LIQUID BACKGROUND ANIMATION */
+      .ambient-canvas {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: -1;
+          overflow: hidden;
+          background: #000;
       }
-      
-      .bento-card:hover {
-          transform: scale(1.02);
-          background-color: var(--apple-dark-hover);
+
+      .blob {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+          opacity: 0.6;
+          animation: float 20s infinite ease-in-out;
+      }
+
+      .blob-1 {
+          top: -10%;
+          left: -10%;
+          width: 500px;
+          height: 500px;
+          background: #0071e3;
+          animation-delay: 0s;
+      }
+
+      .blob-2 {
+          bottom: 20%;
+          right: -10%;
+          width: 400px;
+          height: 400px;
+          background: #5e17eb;
+          animation-delay: -5s;
+      }
+
+      .blob-3 {
+          top: 40%;
+          left: 30%;
+          width: 300px;
+          height: 300px;
+          background: #ff0055;
+          opacity: 0.4;
+          animation-delay: -10s;
+      }
+
+      @keyframes float {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0, 0) scale(1); }
+      }
+
+      /* GLASSMORPHISM CLASSES */
+      .nav-blur {
+          background: rgba(0, 0, 0, 0.3);
+          backdrop-filter: saturate(180%) blur(25px);
+          -webkit-backdrop-filter: saturate(180%) blur(25px);
+          border-bottom: 1px solid var(--glass-border);
+      }
+
+      .glass-panel {
+          background: var(--glass-surface);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border: 1px solid var(--glass-border);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+          position: relative;
+          overflow: hidden;
+      }
+
+      /* Liquid sheen effect on hover */
+      .glass-panel::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+          transform: skewX(-25deg);
+          transition: 0.5s;
+          pointer-events: none;
+      }
+
+      .glass-panel:hover::before {
+          left: 150%;
+          transition: 1s;
+      }
+
+      .glass-panel:hover {
+          background: rgba(40, 40, 45, 0.5);
+          border-color: rgba(255, 255, 255, 0.2);
+          transform: scale(1.01);
       }
 
       .btn-cta {
-          background-color: #0071e3;
-          transition: all 0.2s ease;
+          background: rgba(0, 113, 227, 0.8);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.1);
+          transition: all 0.3s ease;
+          box-shadow: 0 0 15px rgba(0, 113, 227, 0.4);
       }
       .btn-cta:hover {
-          background-color: #0077ed;
+          background: #0077ed;
+          box-shadow: 0 0 25px rgba(0, 113, 227, 0.6);
       }
 
       .fade-in-up {
@@ -64,20 +152,13 @@
       }
 
       @keyframes fadeInUp {
-          to {
-              opacity: 1;
-              transform: translateY(0);
-          }
+          to { opacity: 1; transform: translateY(0); }
       }
 
       .delay-100 { animation-delay: 100ms; }
       .delay-200 { animation-delay: 200ms; }
       .delay-300 { animation-delay: 300ms; }
       
-      .icon-glow {
-          filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
-      }
-
       #disclaimer-modal {
           transition: opacity 0.3s ease, visibility 0.3s ease;
       }
@@ -88,31 +169,37 @@
       }
     </style>
 </head>
-<body class="selection:bg-blue-500 selection:text-white overflow-x-hidden">
+<body class="selection:bg-blue-500 selection:text-white">
+
+    <!-- LIQUID BACKGROUND -->
+    <div class="ambient-canvas">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
 
     <div id="disclaimer-modal" class="fixed inset-0 z-[90] flex items-center justify-center bg-black/60 backdrop-blur-md px-4">
-        <div class="bg-[#1d1d1f] border border-white/10 p-8 rounded-2xl max-w-sm w-full text-center shadow-2xl transform scale-100">
+        <div class="glass-panel p-8 rounded-2xl max-w-sm w-full text-center transform scale-100">
             <div class="mb-5 flex justify-center text-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-500 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
             <h3 class="text-xl font-semibold text-white mb-3">Disclaimer</h3>
-            <p class="text-[15px] text-gray-400 mb-8 leading-relaxed">
+            <p class="text-[15px] text-gray-300 mb-8 leading-relaxed">
                 Yanix Launcher is an open-source project and is <strong>not</strong> an Apple product. This website's design is styled for aesthetic purposes only.
             </p>
-            <button onclick="closeDisclaimer()" class="bg-[#0071e3] hover:bg-[#0077ed] text-white font-medium py-3 px-6 rounded-full w-full transition-colors text-[15px]">
+            <button onclick="closeDisclaimer()" class="btn-cta text-white font-medium py-3 px-6 rounded-full w-full transition-colors text-[15px]">
                 Close
             </button>
         </div>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/10 transition-all duration-300">
+    <nav class="fixed top-0 w-full z-50 nav-blur transition-all duration-300">
         <div class="max-w-[980px] mx-auto px-6 h-11 flex items-center justify-between text-[12px] font-medium tracking-wide">
-            <a href="#" class="text-white hover:opacity-80 transition-opacity flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                </svg>
+            <a href="#" class="text-white hover:text-[#2997ff] transition-colors flex items-center gap-2 shadow-black drop-shadow-md">
+                <!-- UPDATED ICON HERE -->
+                <img src="yanix.png" alt="Yanix Logo" class="h-5 w-5 object-contain drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]" />
                 Yanix Launcher
             </a>
             <div class="flex gap-8 text-[#e8e8ed] opacity-80">
@@ -126,16 +213,16 @@
     <main>
         <section id="overview" class="pt-32 pb-16 md:pt-48 md:pb-32 px-6 flex flex-col items-center text-center overflow-hidden relative">
             <div class="max-w-4xl mx-auto z-10">
-                <h2 class="text-[#f56300] font-semibold text-lg md:text-xl mb-4 fade-in-up flex items-center justify-center gap-2">
+                <h2 class="text-[#f56300] font-semibold text-lg md:text-xl mb-4 fade-in-up flex items-center justify-center gap-2 drop-shadow-[0_0_10px_rgba(245,99,0,0.5)]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
                     </svg>
                     We Present...
                 </h2>
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-white mb-6 fade-in-up delay-100">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-white mb-6 fade-in-up delay-100 drop-shadow-2xl">
                     Yanix Launcher.
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-400 font-medium max-w-2xl mx-auto mb-10 leading-relaxed fade-in-up delay-200">
+                <p class="text-xl md:text-2xl text-gray-200 font-medium max-w-2xl mx-auto mb-10 leading-relaxed fade-in-up delay-200 drop-shadow-md">
                     Yandere Simulator on Linux. Simply. Seamless.
                 </p>
                 
@@ -146,7 +233,7 @@
                         </svg>
                         Download Latest
                     </a>
-                    <a href="https://github.com/theofficialdt/yanix-launcher" target="_blank" class="text-[#2997ff] hover:underline text-[17px] font-medium flex items-center gap-2">
+                    <a href="https://github.com/theofficialdt/yanix-launcher" target="_blank" class="text-[#2997ff] hover:text-white hover:drop-shadow-[0_0_8px_rgba(41,151,255,0.8)] transition-all text-[17px] font-medium flex items-center gap-2">
                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
                         </svg>
@@ -155,9 +242,9 @@
                 </div>
 
                 <div class="mt-20 max-w-2xl mx-auto text-left fade-in-up delay-300">
-                    <div class="bg-[#1d1d1f] border border-white/5 rounded-2xl p-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
-                        <div class="bg-gray-700/30 p-3 rounded-xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
+                        <div class="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         </div>
@@ -165,8 +252,8 @@
                             <h3 class="text-white font-semibold text-sm flex items-center gap-2">
                                 macOS Compatibility
                             </h3>
-                            <p class="text-[13px] text-gray-400 mt-1 leading-normal">
-                                No official support. You must manually modify the <code class="font-mono text-white/80 bg-white/10 px-1 rounded">YANIX_PATH</code> variable in the source code to run on macOS.
+                            <p class="text-[13px] text-gray-300 mt-1 leading-normal">
+                                No official support. You must manually modify the <code class="font-mono text-white/90 bg-white/10 px-1 rounded border border-white/10">YANIX_PATH</code> variable in the source code to run on macOS.
                             </p>
                         </div>
                     </div>
@@ -174,21 +261,21 @@
             </div>
         </section>
 
-        <section class="bg-black py-12 px-4 md:px-6">
+        <section class="py-12 px-4 md:px-6 relative z-10">
             <div class="max-w-[1080px] mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="bento-card rounded-[30px] p-8 md:p-12 h-[500px] flex flex-col justify-between overflow-hidden relative group">
+                    <div class="glass-panel rounded-[30px] p-8 md:p-12 h-[500px] flex flex-col justify-between group transition-transform duration-300">
                         <div class="z-10">
-                            <h3 class="text-gray-400 font-semibold text-xl mb-2 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <h3 class="text-gray-300 font-semibold text-xl mb-2 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#2997ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
                                 Rolling Release
                             </h3>
-                            <p class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-tight">Bleeding edge.<br>For developers.</p>
+                            <p class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-tight drop-shadow-lg">Bleeding edge.<br>For developers.</p>
                         </div>
                         <div class="relative z-10 mt-8">
-                            <a href="https://github.com/theofficialdt/rollingyanix" class="inline-flex items-center justify-center rounded-full bg-white text-black px-5 py-2.5 text-sm font-medium hover:bg-gray-100 transition-colors gap-2">
+                            <a href="https://github.com/theofficialdt/rollingyanix" class="inline-flex items-center justify-center rounded-full bg-white/90 backdrop-blur text-black px-5 py-2.5 text-sm font-medium hover:bg-white transition-colors gap-2 shadow-lg">
                                 View RollingYanix
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -202,25 +289,25 @@
                         </div>
                     </div>
 
-                    <div class="bento-card rounded-[30px] p-8 md:p-12 h-[500px] flex flex-col justify-between relative overflow-hidden">
+                    <div class="glass-panel rounded-[30px] p-8 md:p-12 h-[500px] flex flex-col justify-between transition-transform duration-300">
                         <div class="z-10">
-                            <h3 class="text-gray-400 font-semibold text-xl mb-2 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <h3 class="text-gray-300 font-semibold text-xl mb-2 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 Manual Install
                             </h3>
-                            <p class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-tight">Terminal ready.<br>Git required.</p>
+                            <p class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-tight drop-shadow-lg">Terminal ready.<br>Git required.</p>
                         </div>
                         
                         <div class="mt-auto space-y-4 z-10">
-                            <div class="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-4 font-mono text-xs text-gray-300 break-all select-all flex items-center gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="bg-black/50 backdrop-blur-md border border-white/20 rounded-xl p-4 font-mono text-xs text-gray-200 break-all select-all flex items-center gap-3 shadow-inner">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                                 </svg>
                                 <span id="clone-command">git clone https://github.com/theofficialdt/yanix-launcher.git</span>
                             </div>
-                            <button onclick="copyGitCommand()" class="text-[#2997ff] hover:text-[#0071e3] font-medium text-sm flex items-center gap-2 transition-colors">
+                            <button onclick="copyGitCommand()" class="text-[#2997ff] hover:text-white font-medium text-sm flex items-center gap-2 transition-colors">
                                 <span id="copy-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
@@ -234,18 +321,18 @@
             </div>
         </section>
 
-        <section id="specs" class="py-24 bg-black px-6">
+        <section id="specs" class="py-24 relative z-10 px-6 backdrop-blur-sm bg-black/40">
             <div class="max-w-[980px] mx-auto">
-                <h2 class="text-4xl md:text-5xl font-semibold text-white mb-16 tracking-tight">System Requirements.</h2>
+                <h2 class="text-4xl md:text-5xl font-semibold text-white mb-16 tracking-tight drop-shadow-lg">System Requirements.</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-y-12 gap-x-8">
                     <div class="border-t border-white/20 pt-6">
                         <div class="mb-4 text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
                             </svg>
                         </div>
                         <h4 class="text-lg font-semibold text-white mb-2">Core</h4>
-                        <ul class="space-y-2 text-[#86868b] text-[15px] font-medium">
+                        <ul class="space-y-2 text-gray-300 text-[15px] font-medium">
                             <li>Linux Kernel 5.10+</li>
                             <li>Intel Core i5 (8th Gen)</li>
                             <li>Ryzen 7 4000 Series</li>
@@ -253,58 +340,59 @@
                     </div>
                     <div class="border-t border-white/20 pt-6">
                         <div class="mb-4 text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
                         </div>
                         <h4 class="text-lg font-semibold text-white mb-2">Memory & Graphics</h4>
-                        <ul class="space-y-2 text-[#86868b] text-[15px] font-medium">
+                        <ul class="space-y-2 text-gray-300 text-[15px] font-medium">
                             <li>12 GB RAM</li>
                             <li>4GB+ VRAM</li>
                             <li>DirectX 11 Compatible</li>
+                            <li>Vega 7~6 </li>
                         </ul>
                     </div>
                     <div class="border-t border-white/20 pt-6">
                         <div class="mb-4 text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                             </svg>
                         </div>
                         <h4 class="text-lg font-semibold text-white mb-2">Storage</h4>
-                        <ul class="space-y-2 text-[#86868b] text-[15px] font-medium">
+                        <ul class="space-y-2 text-gray-300 text-[15px] font-medium">
                             <li>~5 GB Free Space</li>
-                            <li>SSD Recommended</li>
+                            <li>SSD (SATA or NVMe) Recommended</li>
                         </ul>
                     </div>
                 </div>
                 <div class="mt-16 pt-8 border-t border-white/10 text-center">
-                    <p class="text-[#86868b] text-xs max-w-2xl mx-auto leading-relaxed flex items-center justify-center gap-2">
+                    <p class="text-gray-400 text-xs max-w-2xl mx-auto leading-relaxed flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                         </svg>
-                        Windows Build 1.0.5 compatibility is approximately 50%. Pad Mode functionality is currently unsupported.
+                        Windows Build 1.0.5 compatibility is approximately 99,9%. Pad Mode functionality is currently unsupported.
                     </p>
                 </div>
             </div>
         </section>
 
-        <section id="community" class="py-24 bg-[#111111]">
+        <section id="community" class="py-24 relative z-10 bg-black/60 backdrop-blur-lg">
             <div class="max-w-[980px] mx-auto px-6 text-center">
-                <h2 class="text-3xl font-semibold text-white mb-10">Join the Community.</h2>
+                <h2 class="text-3xl font-semibold text-white mb-10 drop-shadow-lg">Join the Community.</h2>
                 <div class="flex flex-wrap justify-center gap-6">
-                    <a href="https://discord.gg/7JC4FGn69U" class="group bg-[#1d1d1f] hover:bg-[#2d2d2f] px-8 py-4 rounded-full transition-all duration-300 flex items-center gap-3">
+                    <a href="https://discord.gg/7JC4FGn69U" class="glass-panel group px-8 py-4 rounded-full transition-all duration-300 flex items-center gap-3 hover:bg-white/10">
                         <svg class="h-6 w-6 text-[#5865F2] group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.118.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
                         </svg>
                         <span class="text-white font-medium group-hover:text-[#2997ff] transition-colors">Discord</span>
                     </a>
-                    <a href="https://yanix-launcher.blogspot.com" class="group bg-[#1d1d1f] hover:bg-[#2d2d2f] px-8 py-4 rounded-full transition-all duration-300 flex items-center gap-3">
+                    <a href="https://yanix-launcher.blogspot.com" class="glass-panel group px-8 py-4 rounded-full transition-all duration-300 flex items-center gap-3 hover:bg-white/10">
                         <svg class="h-6 w-6 text-orange-500 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 2H5C3.34 2 2 3.34 2 5v14c0 1.66 1.34 3 3 3h14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
                         </svg>
-                        <span class="text-white font-medium group-hover:text-[#2997ff] transition-colors">Developer Blog</span>
+                        <span class="text-white font-medium group-hover:text-[#2997ff] transition-colors">Development Blog</span>
                     </a>
-                    <a href="https://github.com/theofficialdt/yanix-launcher" class="group bg-[#1d1d1f] hover:bg-[#2d2d2f] px-8 py-4 rounded-full transition-all duration-300 flex items-center gap-3">
+                    <a href="https://github.com/theofficialdt/yanix-launcher" class="glass-panel group px-8 py-4 rounded-full transition-all duration-300 flex items-center gap-3 hover:bg-white/10">
                         <svg class="h-6 w-6 text-white group-hover:text-[#2997ff] transition-colors" fill="currentColor" viewBox="0 0 24 24">
                              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
                         </svg>
@@ -314,7 +402,7 @@
             </div>
         </section>
 
-        <footer class="bg-[#f5f5f7] dark:bg-black py-10 px-6 border-t border-white/10">
+        <footer class="bg-black/80 backdrop-blur-md py-10 px-6 border-t border-white/10 relative z-10">
             <div class="max-w-[980px] mx-auto text-[11px] text-[#86868b] space-y-2">
                 <p>1. Yanix Launcher is an independent open-source project and is not affiliated with YandereDev.</p>
                 <div class="border-t border-gray-800 my-4"></div>
@@ -335,14 +423,14 @@
         </footer>
     </main>
 
-    <div id="easter-egg-overlay" class="hidden fixed inset-0 bg-black z-[100] flex-col justify-center items-center text-center p-6">
+    <div id="easter-egg-overlay" class="hidden fixed inset-0 bg-black/95 z-[100] flex-col justify-center items-center text-center p-6 backdrop-blur-xl">
         <div class="max-w-3xl">
             <div class="mb-6 flex justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-red-600 drop-shadow-[0_0_20px_rgba(220,38,38,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
-            <h1 class="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-900 mb-6 tracking-tighter">DOMAIN SEIZED</h1>
+            <h1 class="text-6xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-900 mb-6 tracking-tighter drop-shadow-lg">DOMAIN SEIZED</h1>
             <p class="text-xl md:text-3xl text-white font-light tracking-wide">By order of the Yanix Community.</p>
             <p class="mt-8 text-gray-500 text-sm font-mono">CASE ID: 3290-YANIX-DT</p>
         </div>
@@ -380,7 +468,7 @@
         }
 
         (function() {
-            const secretCode = 'DOMAINSEIZED';
+            const secretCode = 'SEIZED';
             let keySequence = [];
             document.addEventListener('keydown', (e) => {
                 keySequence.push(e.key.toUpperCase());
