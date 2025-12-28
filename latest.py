@@ -38,15 +38,13 @@ except ImportError:
 IS_WINDOWS = platform.system() == 'Windows'
 IS_MACOS = platform.system() == 'Darwin'
 
-
-
 if IS_MACOS:
     app = QApplication(sys.argv)
-    QMessageBox.critical(None, "macOS Detected", "macOS and Apple Silicon are unsupported. Use a Linux distribution. FEX may be used as an alternative on Apple hardware with Asahi Linux")
+    QMessageBox.critical(None, "macOS Detected", "macOS is not supported")
     sys.exit(1)
 
 CLIENT_ID = '1383809366460989490'
-USER_AGENT = 'YanixLauncher/1.0.7'
+USER_AGENT = 'YanixLauncher/1.0.9'
 
 if IS_WINDOWS:
     YANIX_PATH = os.path.join(os.getenv('LOCALAPPDATA'), 'yanix-launcher')
@@ -56,15 +54,14 @@ else:
 DATA_DOWNLOAD_URL = "https://theofficialdt.github.io/data.zip"
 BACKGROUNDS_DOWNLOAD_URL = "https://theofficialdt.github.io/downloads/yorkipoo/backgrounds/backgrounds.zip"
 PADMODE_DOWNLOAD_URL = "https://theofficialdt.github.io/downloads/padmode.py"
-LATEST_VERSION_URL = "https://raw.githubusercontent.com/theofficialdt/yanix-launcher/refs/heads/main/yanix-launcher.py"
-
+LATEST_VERSION_URL = "https://raw.githubusercontent.com/NextFerret/yanixlauncher/refs/heads/main/yanix-launcher.py"
 TEMP_ZIP_PATH = os.path.join(YANIX_PATH, "data.zip")
 TEMP_BG_ZIP_PATH = os.path.join(YANIX_PATH, "backgrounds.zip")
 
 CONFIG_FILE = os.path.join(YANIX_PATH, "config.json")
 ICON_PATH = os.path.join(YANIX_PATH, "data/yanix.png")
 CUSTOM_THEMES_DIR = os.path.join(YANIX_PATH, "themes")
-BACKGROUNDS_DIR = os.path.join(YANIX_PATH, "backgrounds" , "backgrounds" ) 
+BACKGROUNDS_DIR = os.path.join(YANIX_PATH, "backgrounds")
 PADMODE_DIR = os.path.join(YANIX_PATH, "padmode")
 PADMODE_SCRIPT_PATH = os.path.join(PADMODE_DIR, "padmode.py")
 JOST_FONT_PATH = os.path.join(YANIX_PATH, "data/Font/Jost.ttf")
@@ -81,7 +78,7 @@ os.makedirs(PADMODE_DIR, exist_ok=True)
 
 DEFAULT_CONFIG = {
     "language": "en",
-    "theme": "yorkipoo-silver",
+    "theme": "ferret-christmas",
     "game_path": "",
     "wine_prefix": "",
     "advanced_mode": False,
@@ -97,7 +94,7 @@ LANGUAGES = {
     "en": {
         "welcome": "Welcome to Yanix Launcher", "loading": "Loading", "play": "Play", "github": "GitHub", "settings": "Settings",
         "download": "Download Game", "select_language": "Select Language", "select_exe": "Select .exe for WINE", "support": "Support",
-        "discord": "Discord", "lang_changed": "Language changed!", "exit": "Exit", "missing_path": "Uh oh, try extract in home folder",
+        "discord": "Discord", "lang_changed": "Settings applied!", "exit": "Exit", "missing_path": "Uh oh, try extract in home folder",
         "winetricks": "Winetricks", "no_internet": "No internet connection. Please check your network and try again.",
         "downloading_data": "Downloading Data File....", "extracting_data": "Extracting Files....", "download_failed": "Failed to download data.",
         "extract_failed": "Failed to extract data.", "download_success": "Data downloaded and extracted successfully!",
@@ -129,12 +126,15 @@ LANGUAGES = {
         "wine_version_warning_body": "Your WINE version ({version}) is older than 8.0. Versions 7.22 and older may be unstable with Yandere Simulator. We recommend updating WINE for a better experience.",
         "pad_mode": "Pad Mode", "pad_mode_not_found": "Pad Mode script not found. It will be installed in {path}.", "credits": "Credits",
         "open_folder": "Open Game Folder", "gamemode": "Enable GameMode (Linux)", "fsr": "Enable FSR (Linux)",
-        "downloading_backgrounds": "Downloading Backgrounds...", "installing_corefonts": "Installing corefonts (winetricks corefonts)...", "installing_dxvk": "Installing dxvk (winetricks dxvk)..."
+        "downloading_backgrounds": "Downloading Backgrounds...", "installing_corefonts": "Installing corefonts (winetricks corefonts)...", "installing_dxvk": "Installing dxvk (winetricks dxvk)...",
+        "install_deps_title": "Install Dependencies", "install_deps_prompt": "Do you want to install DXVK and Corefonts? This is recommended for better compatibility.",
+        "vm_warning_title": "VM 3D Acceleration Warning",
+        "vm_warning_body": "Your Virtual Machine does not have 3D acceleration enabled (llvmpipe detected). The game will likely not run or run extremely poorly. Please enable 3D acceleration in your VM settings."
     },
     "es": {
         "welcome": "Bienvenido a Yanix Launcher", "loading": "Cargando", "play": "Jugar", "github": "GitHub", "settings": "Configuración",
         "download": "Descargar Juego", "select_language": "Seleccionar Idioma", "select_exe": "Seleccionar .exe para WINE", "support": "Soporte",
-        "discord": "Discord", "lang_changed": "¡Idioma cambiado!", "exit": "Salir", "missing_path": "Uh oh, intenta extraerlo en tu carpeta personal",
+        "discord": "Discord", "lang_changed": "¡Configuración aplicada!", "exit": "Salir", "missing_path": "Uh oh, intenta extraerlo en tu carpeta personal",
         "winetricks": "Winetricks", "no_internet": "Sin conexión de internet. Por favor, revisa tu red e inténtalo de nuevo.",
         "downloading_data": "Descargando archivo de datos....", "extracting_data": "Extrayendo archivos....", "download_failed": "Fallo al descargar datos.",
         "extract_failed": "Fallo al extraer datos.", "download_success": "Datos descargados y extraídos exitosamente!",
@@ -166,12 +166,15 @@ LANGUAGES = {
         "wine_version_warning_body": "Tu versión de WINE ({version}) es anterior a la 8.0. Las versiones 7.22 y anteriores pueden ser inestables con Yandere Simulator. Recomendamos actualizar WINE para una mejor experiencia.",
         "pad_mode": "Modo Pad", "pad_mode_not_found": "Script del Modo Pad no encontrado. Se instalará en {path}.", "credits": "Créditos",
         "open_folder": "Abrir Carpeta del Juego", "gamemode": "Habilitar GameMode (Linux)", "fsr": "Habilitar FSR (Linux)",
-        "downloading_backgrounds": "Descargando Fondos...", "installing_corefonts": "Instalando corefonts (winetricks corefonts)...", "installing_dxvk": "Instalando dxvk (winetricks dxvk)..."
+        "downloading_backgrounds": "Descargando Fondos...", "installing_corefonts": "Instalando corefonts (winetricks corefonts)...", "installing_dxvk": "Instalando dxvk (winetricks dxvk)...",
+        "install_deps_title": "Instalar Dependencias", "install_deps_prompt": "¿Quieres instalar DXVK y Corefonts? Se recomienda para una mejor compatibilidad.",
+        "vm_warning_title": "Advertencia de Aceleración 3D",
+        "vm_warning_body": "Tu Máquina Virtual no tiene aceleración 3D habilitada (se detectó llvmpipe). Es probable que el juego no funcione. Por favor habilita la aceleración 3D."
     },
     "pt": {
         "welcome": "Bem-vindo ao Yanix Launcher", "loading": "Carregando", "play": "Jogar", "github": "GitHub", "settings": "Configurações",
         "download": "Baixar Jogo", "select_language": "Selecionar Idioma", "select_exe": "Selecionar .exe para WINE", "support": "Suporte",
-        "discord": "Discord", "lang_changed": "Idioma alterado!", "exit": "Sair", "missing_path": "Uh oh... tente extrai-lo na sua pasta pessoal.",
+        "discord": "Discord", "lang_changed": "Configurações aplicadas!", "exit": "Sair", "missing_path": "Uh oh... tente extrai-lo na sua pasta pessoal.",
         "winetricks": "Winetricks", "no_internet": "Sem conexão com a internet. Por favor, verifique sua rede e tente novamente.",
         "downloading_data": "Baixando arquivo de dados....", "extracting_data": "Extraindo arquivos....", "download_failed": "Falha ao baixar dados.",
         "extract_failed": "Falha ao extrair dados.", "download_success": "Dados baixados e extraídos com sucesso!",
@@ -203,12 +206,15 @@ LANGUAGES = {
         "wine_version_warning_body": "Sua versão do WINE ({version}) é anterior à 8.0. Versões 7.22 e mais antigas podem ser instáveis com o Yandere Simulator. Recomendamos atualizar o WINE para uma melhor experiência.",
         "pad_mode": "Modo Pad", "pad_mode_not_found": "Script do Modo Pad não encontrado. Ele será instalado em {path}.", "credits": "Créditos",
         "open_folder": "Abrir Pasta do Jogo", "gamemode": "Habilitar GameMode (Linux)", "fsr": "Habilitar FSR (Linux)",
-        "downloading_backgrounds": "Baixando Planos de Fundo...", "installing_corefonts": "Instalando corefonts (winetricks corefonts)...", "installing_dxvk": "Instalando dxvk (winetricks dxvk)..."
+        "downloading_backgrounds": "Baixando Planos de Fundo...", "installing_corefonts": "Instalando corefonts (winetricks corefonts)...", "installing_dxvk": "Instalando dxvk (winetricks dxvk)...",
+        "install_deps_title": "Instalar Dependências", "install_deps_prompt": "Deseja instalar DXVK e Corefonts? Isso é recomendado para melhor compatibilidade.",
+        "vm_warning_title": "Aviso de Aceleração 3D",
+        "vm_warning_body": "Sua Máquina Virtual não tem aceleração 3D habilitada (llvmpipe detectado). O jogo provavelmente não rodará. Por favor, ative a aceleração 3D."
     },
     "ru": {
         "welcome": "Добро пожаловать в Yanix Launcher", "loading": "Загрузка", "play": "Играть", "github": "GitHub", "settings": "Настройки",
         "download": "Скачать игру", "select_language": "Выбрать язык", "select_exe": "Выбрать .exe для WINE", "support": "Поддержка",
-        "discord": "Discord", "lang_changed": "Язык изменен!", "exit": "Выход", "missing_path": "Упс, попробуйте извлечь в домашнюю папку",
+        "discord": "Discord", "lang_changed": "Настройки применены!", "exit": "Выход", "missing_path": "Упс, попробуйте извлечь в домашнюю папку",
         "winetricks": "Управление Winetricks", "no_internet": "Нет подключения к интернету. Пожалуйста, проверьте свою сеть и повторите попытку.",
         "downloading_data": "Загрузка файла данных....", "extracting_data": "Извлечение файлов....", "download_failed": "Не удалось загрузить данные.",
         "extract_failed": "Не удалось извлечь данные.", "download_success": "Данные успешно загружены и извлечены!",
@@ -240,12 +246,15 @@ LANGUAGES = {
         "wine_version_warning_body": "Ваша версия WINE ({version}) старше 8.0. Версии 7.22 и старше могут быть нестабильны с Yandere Simulator. Мы рекомендуем обновить WINE для лучшего опыта.",
         "pad_mode": "Режим геймпада", "pad_mode_not_found": "Скрипт режима геймпада не найден. Он будет установлен в {path}.", "credits": "Авторы",
         "open_folder": "Открыть папку с игрой", "gamemode": "Включить GameMode (Linux)", "fsr": "Включить FSR (Linux)",
-        "downloading_backgrounds": "Загрузка фонов...", "installing_corefonts": "Установка corefonts (winetricks corefonts)...", "installing_dxvk": "Установка dxvk (winetricks dxvk)..."
+        "downloading_backgrounds": "Загрузка фонов...", "installing_corefonts": "Установка corefonts (winetricks corefonts)...", "installing_dxvk": "Установка dxvk (winetricks dxvk)...",
+        "install_deps_title": "Установить зависимости", "install_deps_prompt": "Вы хотите установить DXVK и Corefonts? Это рекомендуется для лучшей совместимости.",
+        "vm_warning_title": "Предупреждение о 3D-ускорении",
+        "vm_warning_body": "В вашей виртуальной машине не включено 3D-ускорение (обнаружен llvmpipe). Игра, скорее всего, не запустится. Пожалуйста, включите 3D-ускорение."
     },
     "ja": {
         "welcome": "Yanix Launcherへようこそ", "loading": "読み込み中", "play": "プレイ", "github": "GitHub", "settings": "設定",
         "download": "ゲームをダウンロード", "select_language": "言語を選択", "select_exe": "WINE用の.exeを選択", "support": "サポート",
-        "discord": "Discord", "lang_changed": "言語が変更されました！", "exit": "終了", "missing_path": "うーん、ホームフォルダに抽出してみてください",
+        "discord": "Discord", "lang_changed": "設定が適用されました！", "exit": "終了", "missing_path": "うーん、ホームフォルダに抽出してみてください",
         "winetricks": "Winetricks", "no_internet": "インターネット接続がありません。ネットワークを確認してもう一度お試しください。",
         "downloading_data": "データファイルをダウンロード中....", "extracting_data": "ファイルを展開中....", "download_failed": "データのダウンロードに失敗しました。",
         "extract_failed": "データの抽出に失敗しました。", "download_success": "データが正常にダウンロードされ、抽出されました！",
@@ -277,12 +286,15 @@ LANGUAGES = {
         "wine_version_warning_body": "お使いのWINEのバージョン({version})は8.0より古いです。バージョン7.22以前はYandere Simulatorで不安定になる可能性があります。より良い体験のためにWINEを更新することをお勧めします。",
         "pad_mode": "パッドモード", "pad_mode_not_found": "パッドモードスクリプトが見つかりません。 {path}にインストールされます。", "credits": "クレジット",
         "open_folder": "ゲームフォルダを開く", "gamemode": "GameModeを有効にする (Linux)", "fsr": "FSRを有効にする (Linux)",
-        "downloading_backgrounds": "背景をダウンロード中...", "installing_corefonts": "corefontsをインストール中 (winetricks corefonts)...", "installing_dxvk": "dxvkをインストール中 (winetricks dxvk)..."
+        "downloading_backgrounds": "背景をダウンロード中...", "installing_corefonts": "corefontsをインストール中 (winetricks corefonts)...", "installing_dxvk": "dxvkをインストール中 (winetricks dxvk)...",
+        "install_deps_title": "依存関係のインストール", "install_deps_prompt": "DXVKとCorefontsをインストールしますか？ 互換性を向上させるために推奨されます。",
+        "vm_warning_title": "VM 3Dアクセラレーションの警告",
+        "vm_warning_body": "仮想マシンで3Dアクセラレーションが有効になっていません（llvmpipeが検出されました）。ゲームはおそらく動作しません。3Dアクセラレーションを有効にしてください。"
     },
     "ko": {
         "welcome": "Yanix Launcher에 오신 것을 환영합니다", "loading": "로딩 중", "play": "플레이", "github": "GitHub", "settings": "설정",
         "download": "게임 다운로드", "select_language": "언어 선택", "select_exe": "WINE용 .exe 선택", "support": "지원",
-        "discord": "Discord", "lang_changed": "언어가 변경되었습니다!", "exit": "종료", "missing_path": "오류, 홈 폴더에 압축을 풀어 보세요",
+        "discord": "Discord", "lang_changed": "설정이 적용되었습니다!", "exit": "종료", "missing_path": "오류, 홈 폴더에 압축을 풀어 보세요",
         "winetricks": "Winetricks", "no_internet": "인터넷 연결이 없습니다. 네트워크를 확인하고 다시 시도하십시오.",
         "downloading_data": "데이터 파일 다운로드 중....", "extracting_data": "파일 압축 해제 중....", "download_failed": "데이터 다운로드 실패.",
         "extract_failed": "데이터 추출 실패.", "download_success": "데이터가 성공적으로 다운로드 및 추출되었습니다!",
@@ -314,12 +326,15 @@ LANGUAGES = {
         "wine_version_warning_body": "WINE 버전({version})이 8.0보다 낮습니다. 7.22 및 이전 버전은 Yandere Simulator에서 불안정할 수 있습니다. 더 나은 경험을 위해 WINE을 업데이트하는 것이 좋습니다.",
         "pad_mode": "패드 모드", "pad_mode_not_found": "패드 모드 스크립트를 찾을 수 없습니다. {path}에 설치됩니다.", "credits": "크레딧",
         "open_folder": "게임 폴더 열기", "gamemode": "GameMode 활성화 (Linux)", "fsr": "FSR 활성화 (Linux)",
-        "downloading_backgrounds": "배경 다운로드 중...", "installing_corefonts": "corefonts 설치 중 (winetricks corefonts)...", "installing_dxvk": "dxvk 설치 중 (winetricks dxvk)..."
+        "downloading_backgrounds": "배경 다운로드 중...", "installing_corefonts": "corefonts 설치 중 (winetricks corefonts)...", "installing_dxvk": "dxvk 설치 중 (winetricks dxvk)...",
+        "install_deps_title": "종속성 설치", "install_deps_prompt": "DXVK 및 Corefonts를 설치하시겠습니까? 더 나은 호환성을 위해 권장됩니다.",
+        "vm_warning_title": "VM 3D 가속 경고",
+        "vm_warning_body": "가상 머신에 3D 가속이 활성화되지 않았습니다 (llvmpipe 감지됨). 게임이 실행되지 않을 가능성이 높습니다. 3D 가속을 활성화하십시오."
     },
     "ndk": {
         "welcome": "niko Niko-Launcher!", "loading": "You Activated the Nikodorito Easter-egg!", "play": "Niko", "github": "GitHub", "settings": "Meow",
         "download": "Dalad Gaem", "select_language": "niko to to ni", "select_exe": "niko to to ni WINE", "support": "niko to to ni",
-        "discord": "Discorda", "lang_changed": "Niko DOrito! Niko dorito kimegasu", "exit": "nikotorito", "missing_path": "Uh oh, try extract in home foldar, stupid",
+        "discord": "Discorda", "lang_changed": "Niko settings applied!", "exit": "nikotorito", "missing_path": "Uh oh, try extract in home foldar, stupid",
         "winetricks": "manage the fucking winetricks", "no_internet": "no internet. check your network, stupid.", "downloading_data": "downloading daka file....",
         "extracting_data": "extracting files....", "download_failed": "fail to download daka.", "extract_failed": "fail to extract daka.",
         "download_success": "daka downloaded and extracted successfully!", "wineprefix": "manage the fucking wineprefix",
@@ -350,7 +365,10 @@ LANGUAGES = {
         "wine_version_warning_body": "Your WINE version ({version}) is older than 8.0, stupid. Versions 7.22 and older may be unstable with Yandere Simulator. Update WINE for a better experience, stupid.",
         "pad_mode": "Niko Pad Mode", "pad_mode_not_found": "Pad Mode niko script not found. Installing it in {path}, stupid", "credits": "Niko Credits",
         "open_folder": "Open Niko Folder", "gamemode": "Enable Niko GameMode (Linux)", "fsr": "Enable Niko FSR (Linux)",
-        "downloading_backgrounds": "Downloading Niko Backgrounds...", "installing_corefonts": "Installing niko corefonts (winetricks corefonts)...", "installing_dxvk": "Installing niko dxvk (winetricks dxvk)..."
+        "downloading_backgrounds": "Downloading Niko Backgrounds...", "installing_corefonts": "Installing niko corefonts (winetricks corefonts)...", "installing_dxvk": "Installing niko dxvk (winetricks dxvk)...",
+        "install_deps_title": "Install Niko Dependencies", "install_deps_prompt": "Do you want to install DXVK and Corefonts? This is recommended for better compatibility, stupid.",
+        "vm_warning_title": "Niko VM Warning",
+        "vm_warning_body": "Your Virtual Machine does not have 3D acceleration enabled (llvmpipe detected). The game will likely not run, stupid. Enable 3D acceleration."
     }
 }
 
@@ -459,6 +477,51 @@ THEMES = {
         "button_hover_bg_color": "#EEE8AA",
         "label_text_color": "#000000",
         "border_color": "#BDB76B"
+    },
+    "ferret-tan-and-black": {
+        "background_color_start": "#D2B48C",
+        "background_color_end": "#000000",
+        "button_bg_color": "#D2B48C",
+        "button_text_color": "#000000",
+        "button_hover_bg_color": "#C3A57D",
+        "label_text_color": "#FFFFFF",
+        "border_color": "#8B4513"
+    },
+    "ferret-beige": {
+        "background_color_start": "#F5F5DC",
+        "background_color_end": "#EEE8AA",
+        "button_bg_color": "#F5F5DC",
+        "button_text_color": "#000000",
+        "button_hover_bg_color": "#E6E6CA",
+        "label_text_color": "#000000",
+        "border_color": "#BDB76B"
+    },
+    "ferret-christmas": {
+        "background_color_start": "#144722",
+        "background_color_end": "#680C0E",
+        "button_bg_color": "#B2181C",
+        "button_text_color": "#FFFFFF",
+        "button_hover_bg_color": "#206935",
+        "label_text_color": "#F8B229",
+        "border_color": "#F8B229"
+    },
+    "rio-morning": {
+        "background_color_start": "#87CEEB",
+        "background_color_end": "#FFFACD",
+        "button_bg_color": "#3CB371",
+        "button_text_color": "#FFFFFF",
+        "button_hover_bg_color": "#2E8B57",
+        "label_text_color": "#000000",
+        "border_color": "#20B2AA"
+    },
+    "rio-night": {
+        "background_color_start": "#000033",
+        "background_color_end": "#4B0082",
+        "button_bg_color": "#FFD700",
+        "button_text_color": "#000000",
+        "button_hover_bg_color": "#FFA500",
+        "label_text_color": "#FFFFFF",
+        "border_color": "#FF4500"
     }
 }
 
@@ -531,6 +594,7 @@ class DownloadSignals(QObject):
     extraction_progress = pyqtSignal(int, int)
     extraction_complete = pyqtSignal()
     extraction_failed = pyqtSignal(str)
+    ask_install = pyqtSignal()
 
 class UpdateCheckerSignals(QObject):
     update_status = pyqtSignal(str)
@@ -540,42 +604,31 @@ class YanixSplashScreen(QSplashScreen):
     def __init__(self, current_lang_data):
         super().__init__()
         self.current_lang = current_lang_data
-        self.setFixedSize(600, 300)
+        self.setFixedSize(823, 339)
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint)
-        self.message = ""
+        self.message = self.current_lang["loading"]
         self.progress_text = ""
-        self.update_splash_content(self.current_lang["downloading_data"])
+        self.splash_img_path = os.path.join(YANIX_PATH, "data", "splash.png")
+        self.update_splash_content(self.current_lang["loading"])
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        rect = self.rect()
+        if os.path.exists(self.splash_img_path):
+            pixmap = QPixmap(self.splash_img_path)
+            painter.drawPixmap(0, 0, self.width(), self.height(), pixmap)
+        else:
+            painter.fillRect(self.rect(), QColor(20, 20, 20))
 
-        gradient = QLinearGradient(0, 0, 0, rect.height())
-        gradient.setColorAt(0, QColor(THEMES["yanix-legacy"]["background_color_start"]))
-        gradient.setColorAt(1, QColor(THEMES["yanix-legacy"]["background_color_end"]))
-        painter.fillRect(rect, gradient)
-
-        painter.setPen(QColor(0, 0, 0))
-        painter.drawRect(rect.adjusted(20, 20, -20, -20))
-
-        text_rect = QRect(rect.width() // 2 - 200, rect.height() // 2 - 50, 400, 100)
-
-        font_title = QFont("Jost", 32, QFont.Weight.Bold)
-        painter.setFont(font_title)
         painter.setPen(QColor(255, 255, 255))
-        painter.drawText(text_rect, Qt.AlignmentFlag.AlignCenter, "Yanix Launcher")
-
-        font_message = QFont("Jost", 16)
+        font_message = QFont("Jost", 24, QFont.Weight.Bold)
         painter.setFont(font_message)
-        painter.setPen(QColor(0, 0, 0))
-        message_rect = QRect(rect.width() // 2 - 200, rect.height() // 2 + 10, 400, 50)
-        painter.drawText(message_rect, Qt.AlignmentFlag.AlignCenter, self.message)
+        painter.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, self.message)
 
-        font_progress = QFont("Jost", 12)
-        painter.setFont(font_progress)
-        painter.setPen(QColor(0, 0, 0))
-        progress_rect = QRect(rect.width() - 150, rect.height() - 50, 100, 30)
-        painter.drawText(progress_rect, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom, self.progress_text)
+        if self.progress_text:
+            font_progress = QFont("Jost", 12)
+            painter.setFont(font_progress)
+            progress_rect = QRect(self.width() - 200, self.height() - 40, 190, 30)
+            painter.drawText(progress_rect, Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom, self.progress_text)
 
     def update_splash_content(self, message, progress=""):
         self.message = message
@@ -583,11 +636,14 @@ class YanixSplashScreen(QSplashScreen):
         self.repaint()
 
 class StartupWorker(QObject):
-    def __init__(self, current_lang_data, signals, config):
+    def __init__(self, current_lang_data, signals, config, is_first_run):
         super().__init__()
         self.current_lang_data = current_lang_data
         self.signals = signals
         self.config = config
+        self.is_first_run = is_first_run
+        self.install_event = threading.Event()
+        self.should_install = False
 
     def download_and_extract(self, url, temp_path, target_folder, msg_download, msg_extract, msg_fail_dl, msg_fail_ext):
         if not check_internet_connection():
@@ -635,6 +691,8 @@ class StartupWorker(QObject):
                 os.remove(temp_path)
 
     def run(self):
+        time.sleep(2)
+        
         target_data_folder = os.path.join(YANIX_PATH, "data")
         if not (os.path.exists(target_data_folder) and os.listdir(target_data_folder)):
             self.download_and_extract(
@@ -668,26 +726,41 @@ class StartupWorker(QObject):
                 "Failed to download backgrounds.",
                 "Failed to extract backgrounds."
             )
+             
+             extracted_items = os.listdir(BACKGROUNDS_DIR)
+             if len(extracted_items) == 1:
+                potential_subfolder = os.path.join(BACKGROUNDS_DIR, extracted_items[0])
+                if os.path.isdir(potential_subfolder):
+                    source_dir = potential_subfolder
+                    for item_name in list(os.listdir(source_dir)):
+                        source_item_path = os.path.join(source_dir, item_name)
+                        destination_item_path = os.path.join(BACKGROUNDS_DIR, item_name)
+                        shutil.move(source_item_path, destination_item_path)
+                    os.rmdir(source_dir)
 
-        if self.config.get("first_run", False) and not IS_WINDOWS:
+        if self.is_first_run and not IS_WINDOWS:
             if shutil.which("winetricks"):
-                self.signals.update_splash.emit(self.current_lang_data.get("installing_corefonts", "Installing corefonts..."), "")
-                try:
-                    subprocess.run(["winetricks", "-q", "corefonts"], check=True)
-                except Exception as e:
-                    print(f"Failed to install corefonts: {e}")
+                self.signals.ask_install.emit()
+                self.install_event.wait()
                 
-                self.signals.update_splash.emit(self.current_lang_data.get("installing_dxvk", "Installing dxvk..."), "")
-                try:
-                    subprocess.run(["winetricks", "-q", "dxvk"], check=True)
-                except Exception as e:
-                    print(f"Failed to install dxvk: {e}")
+                if self.should_install:
+                    self.signals.update_splash.emit(self.current_lang_data.get("installing_corefonts", "Installing corefonts..."), "")
+                    try:
+                        subprocess.run(["winetricks", "-q", "corefonts"], check=True)
+                    except Exception as e:
+                        print(f"Failed to install corefonts: {e}")
+                    
+                    self.signals.update_splash.emit(self.current_lang_data.get("installing_dxvk", "Installing dxvk..."), "")
+                    try:
+                        subprocess.run(["winetricks", "-q", "dxvk"], check=True)
+                    except Exception as e:
+                        print(f"Failed to install dxvk: {e}")
 
         self.signals.download_complete.emit()
 
 class UpdateChecker(QObject):
-    def __init__(self, current_version, lang_data, signals):
-        super().__init__()
+    def __init__(self, current_version, lang_data, signals, parent=None):
+        super().__init__(parent)
         self.current_version = current_version
         self.lang_data = lang_data
         self.signals = signals
@@ -1037,6 +1110,7 @@ class YanixLauncher(QMainWindow):
         self.update_checker_signals.update_status.connect(self._on_update_check_result)
         self.update_checker_signals.update_found.connect(self._on_update_found)
         self.check_and_warn_wine_version()
+        self.check_vm_3d_acceleration()
 
     def init_tray(self):
         self.tray_icon = QSystemTrayIcon(self)
@@ -1121,6 +1195,18 @@ class YanixLauncher(QMainWindow):
                     QMessageBox.warning(self, title, body)
 
         except (FileNotFoundError, subprocess.CalledProcessError, IndexError, ValueError):
+            pass
+
+    def check_vm_3d_acceleration(self):
+        if IS_WINDOWS:
+            return
+        try:
+            if shutil.which("glxinfo"):
+                result = subprocess.run(['glxinfo', '-B'], capture_output=True, text=True)
+                output = result.stdout.lower()
+                if "llvmpipe" in output or "softpipe" in output:
+                    QMessageBox.warning(self, self.lang.get("vm_warning_title", "VM Warning"), self.lang.get("vm_warning_body", "No 3D acceleration detected."))
+        except Exception:
             pass
 
     def get_current_theme_data(self):
@@ -1477,16 +1563,16 @@ class YanixLauncher(QMainWindow):
 
     def show_credits(self):
         credits_text = """
-Yanix Launcher Was Made by:
-Seyu's Stuff
+Yanix Launcher Is Made by:
+NextFerret Organization™
 
 Volunteers:
-Ayovizzion, Ashxlek
+Ayovizzion, Ashxlek (0.5~0.8?)
 
 Supporters:
-Akashiraii, SlayAllDay2, Sara-chan
+Akashiraii , SlayAllDay2, Sara-chan , Pwyzthur
 
-Yanix Launcher™ Made by Yanix Launcher Community™, All Rights Reserved
+Yanix Launcher™ Made by NextFerret™, All Rights Reserved
 Yandere Simulator™ Made By YandereDev, All Rights Reserved
 """
         QMessageBox.information(self, self.lang["credits"], credits_text)
@@ -1509,7 +1595,7 @@ Yandere Simulator™ Made By YandereDev, All Rights Reserved
         self.support_button.setText(self.lang["support"])
         self.discord_button.setText(self.lang["discord"])
         self.credits_button.setText(self.lang["credits"])
-        self.version_label.setText(f"{self.lang['welcome']} v{self.current_launcher_version} — Yorkipoo ")
+        self.version_label.setText(f"{self.lang['welcome']} v{self.current_launcher_version} — Rio ")
         self.apply_theme(self.config["theme"])
 
     def setup_ui(self):
@@ -1590,6 +1676,7 @@ if __name__ == "__main__":
     QFontDatabase.addApplicationFont(JOST_FONT_PATH)
 
     app_config = load_config()
+    is_first_run_flag = app_config.get("first_run", True)
     handle_first_run(app_config)
     
     current_lang_data = LANGUAGES.get(app_config["language"], LANGUAGES["en"])
@@ -1602,11 +1689,22 @@ if __name__ == "__main__":
     signals.download_failed.connect(lambda msg: QMessageBox.critical(None, current_lang_data["download_failed"], msg))
     signals.extraction_progress.connect(lambda current, total: splash.update_splash_content(current_lang_data["extracting_data"], f"({current}/{total} files)"))
     signals.extraction_failed.connect(lambda msg: QMessageBox.critical(None, current_lang_data["extract_failed"], msg))
+    
+    startup_worker = StartupWorker(current_lang_data, signals, app_config, is_first_run_flag)
+    
+    def handle_install_prompt():
+        reply = QMessageBox.question(None, current_lang_data.get("install_deps_title", "Install Dependencies"), 
+                                     current_lang_data.get("install_deps_prompt", "Do you want to install DXVK and Corefonts?"),
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        startup_worker.should_install = (reply == QMessageBox.StandardButton.Yes)
+        startup_worker.install_event.set()
 
-    startup_thread = threading.Thread(target=StartupWorker(current_lang_data, signals, app_config).run, daemon=True)
+    signals.ask_install.connect(handle_install_prompt)
 
-    signals.download_complete.connect(lambda: splash.update_splash_content(current_lang_data["download_success"]))
-    signals.extraction_complete.connect(lambda: splash.update_splash_content(current_lang_data["download_success"]))
+    startup_thread = threading.Thread(target=startup_worker.run, daemon=True)
+
+    signals.download_complete.connect(lambda: splash.update_splash_content(current_lang_data["loading"]))
+    signals.extraction_complete.connect(lambda: splash.update_splash_content(current_lang_data["loading"]))
 
     startup_thread.start()
 
